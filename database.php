@@ -32,3 +32,26 @@ function getPost($id){
     }
     return $rows[0];
 }
+
+function getAllCategories(){
+    $connection = getConnection();
+    $sql = 'select * from categories';
+    $result = $connection->query($sql);
+    $rows = $result->fetch_all(MYSQLI_ASSOC);
+    $connection->close();
+    return $rows;
+}
+
+function addPost() {
+    $values= ['title','categoryId','content'];
+    if(!isPostValid($values)) return;
+    $categoryId = $_POST['categoryId'];
+    $authorId = 1;
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $connection = getConnection();
+    $sql = "insert into posts(categoryId, authorId, title, content) values('$categoryId', '$authorId', '$title' '$content')";
+    $connection->query($sql);
+    $connection->close();
+    header('Location: admin-posts.php');
+}
