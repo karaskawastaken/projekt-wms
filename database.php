@@ -46,12 +46,40 @@ function addPost() {
     $values= ['title','categoryId','content'];
     if(!isPostValid($values)) return;
     $categoryId = $_POST['categoryId'];
-    $authorId = 1;
+    $authorId = $SESSION['adminId'];
     $title = $_POST['title'];
     $content = $_POST['content'];
     $connection = getConnection();
-    $sql = "insert into posts(categoryId, authorId, title, content) values('$categoryId', '$authorId', '$title' '$content')";
+    $sql = "insert into posts(categoryId, authorId, title, content) values('$categoryId', '$authorId', '$title', '$content')";
     $connection->query($sql);
     $connection->close();
     header('Location: admin-posts.php');
+}
+
+function addMessage() {
+    $values= ['email', 'firstName', 'lastName', 'content'];
+    if(!isPostValid($values)) return;
+    $email = $_POST['email'];
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $content = $_POST['content'];
+    $connection = getConnection();
+    $sql = "insert into massages(email,firstName,lastName,content) values('$email','$firstName','$lastName','$content')";
+    $connection->query($sql);
+    $connection->close();
+    header('Location: contact.php?succeeded=1');
+}
+function login() {
+    $values = ['email','password'];
+    if(!isPostValid($values)) return;
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $connection = getConnection();
+    $sql = "select * from admins where email = '$email'";
+    $result = $connection->query($sql);
+    $rows = $result->fetch_all(MYSQLI_ASSOC);
+    $connection->close();
+    if(count($rows) == 0) return;
+    if(!password_verify($password,$rows[0]['password'])) return;
+    $_SESSION['adminId'] = $rows[0]['id'];
 }
