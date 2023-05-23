@@ -22,11 +22,11 @@ function getAllPosts(){
 
 function getPost($id){
     $connection = getConnection();
-    $sql = 'SELECT posts.id AS id, posts.title AS title, posts.content AS content, posts.createdAT AS createdAt, categories.name AS categoryName, admins.firstName AS firstName, admins.lastName as lastName FROM posts INNER JOIN categories ON posts.categoryId=categories.id INNER JOIN admins ON posts.authorId=authors.id WHERE id = $id';
+    $sql = "SELECT posts.id AS id, posts.title AS title, posts.content AS content, posts.createdAt AS createdAt, categories.name AS categoryName, admins.firstName AS firstName, admins.lastName as lastName FROM posts INNER JOIN categories ON posts.categoryId=categories.id INNER JOIN admins ON posts.authorId=admins.id WHERE posts.id = $id";
     $result = $connection->query($sql);
     $rows = $result->fetch_all(MYSQLI_ASSOC);
     $connection->close(); 
-    if (count($roas)==0) {
+    if (count($rows)==0) {
         header('Location: 404.php');
         exit();
     }
@@ -82,4 +82,26 @@ function login() {
     if(count($rows) == 0) return;
     if(!password_verify($password,$rows[0]['password'])) return;
     $_SESSION['adminId'] = $rows[0]['id'];
+}
+function deletePost() {
+    $id = $_GET['id'];
+    $connection = getConnection();
+    $sql = "delete from posts where id='$id'";
+    $connection->query($sql);
+    $connection->close();
+}
+function deleteMessage() {
+    $id = $_GET['id'];
+    $connection = getConnection();
+    $sql = "delete from massages where id='$id'";
+    $connection->query($sql);
+    $connection->close();
+}
+function getAllMessages() {
+    $connection = getConnection();
+    $sql = 'select * from massages';
+    $result = $connection->query($sql);
+    $rows = $result->fetch_all(MYSQLI_ASSOC);
+    $connection->close();
+    return $rows;
 }

@@ -1,6 +1,5 @@
 <?php
 include_once('functions.php');
-checkIfAdmin();
 include_once('database.php');
 ?>
 <!DOCTYPE html>
@@ -9,7 +8,7 @@ include_once('database.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?=$title?></title>
+    <title><?=$title?> - Posty</title>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
@@ -18,32 +17,33 @@ include_once('database.php');
     printNavbar();
     ?>
     <main class="container mt-5">
-        <h2>Posty</h2>
-        <table class="table table-striped">
+        <h2>Wiadomości</h2>
+        <table class="table table-stripped table-responsive">
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>Tytuł</th>
-                    <th>Kategoria</th>
-                    <th colspan="2"></th>
+                    <th>Id</th>
+                    <th>Email</th>
+                    <th>Imię i Nazwisko</th>
+                    <th>Treść</th>
+                    <th>Data</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td colspan="5">
-                        <a href="admin-add-post.php" class="btn btn-outline-primary col-12">Nowy post</a>
-                    </td>
-                </tr>
                 <?php
-                $posts = getAllPosts();
-                foreach($posts as $a) {
+                $messages = getAllMessages();
+                foreach($messages as $a) {
                     ?>
                     <tr>
                         <td><?=$a['id']?></td>
-                        <td><?=$a['title']?></td>
-                        <td><?=$a['categoryName']?></td>
-                        <td><a href="admin-post.php?id=<?=$a['id']?>" class="btn btn-outline-info"><i class="bi bi-link"></i></a></td>
-                        <td><a href="admin-delete-post.php?id=<?=$a['id']?>" class="btn btn-outline-danger"><i class="bi bi-trash"></i></a></td>
+                        <td><?=$a['email']?></td>
+                        <td><?=$a['firstName']?> <?-$a['lastName']?></td>
+                        <td><?=$a['content']?></td>
+                        <td><?=$a['createdAt']?></td>
+                        <td>
+                            <a class="btn btn-outline-danger" href="admin-delete-message.php?id=<?=$a['id']?>">
+                                <i class="bi bi-trash"></i>
+                        </td>
                     </tr>
                     <?php
                 }

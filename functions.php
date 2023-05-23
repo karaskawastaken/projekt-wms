@@ -21,6 +21,7 @@ function printNavbar() {
                 ?>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="admin-posts.php">Zarządzanie-Posty</a></li>
+                    <li class="nav-item"><a class="nav-link" href="admin-messages.php">Zarządzanie-Wiadomości</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout.php">Wyloguj</a></li>
                 </ul>
                 <?php
